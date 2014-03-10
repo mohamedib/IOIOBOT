@@ -44,7 +44,8 @@ public class gpsinitread extends Thread implements LocationListener {
 		lat = (double) (location.getLatitude());
 		lng = (double) (location.getLongitude());
 		Log.d("youssef : ", Double.toString(lng));
-		DataSocket.SendMsg(Double.toString(lat) + "  " + Double.toString(lng));
+		DataSocket.SendMsg("$G:"+Double.toString(lat) + ":" + Double.toString(lng));
+		//DataSocket.SendMsg("$G:29.96712262:30.90541701");
 	}
 
 	@Override

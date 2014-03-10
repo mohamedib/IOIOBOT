@@ -7,7 +7,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
-        
+
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
@@ -37,8 +37,16 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/textView2"
-        android:progress="5" 
         android:max="10"
-        />
+        android:progress="5" />
+
+    <TextView
+        android:id="@+id/ip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/seekBar1"
+        android:layout_centerHorizontal="true"
+        android:text="ip goes here.. "
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </RelativeLayout>

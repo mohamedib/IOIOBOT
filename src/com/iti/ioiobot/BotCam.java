@@ -57,7 +57,7 @@ public class BotCam {
 			camera.setPreviewCallback(new PreviewCallback() {
 				long timeout = SystemClock.uptimeMillis(); 
 				//a variable that carry the system lifetime and it may leads to an error due to overflow 
-				final long delay = 100; //the dealy between each image and the other in ms
+				final long delay = 50; //the dealy between each image and the other in ms
 
 				public void onPreviewFrame(final byte[] data, Camera arg1) {
 

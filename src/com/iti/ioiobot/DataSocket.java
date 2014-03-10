@@ -38,9 +38,9 @@ public class DataSocket implements Runnable {
 						new OutputStreamWriter(_client.getOutputStream())),
 						true);
 
-				// gpsinitread g = new gpsinitread();
-				// g.GpsInit(App.LOCATION_SERVICE);
-				// g.start();
+				 gpsinitread g = new gpsinitread();
+				 g.GpsInit(App.ApplicationContext);
+				 g.start();
 
 			}
 

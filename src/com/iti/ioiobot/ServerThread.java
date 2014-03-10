@@ -24,12 +24,12 @@ public class ServerThread implements Runnable {
    Handler h = MainHandler.getMainHandler(); 
     // DESIGNATE A PORT
     public static final int SERVERPORT = 1234;
-    private ServerSocket serverSocket;
+    public static ServerSocket serverSocket;
     Socket client = new Socket();
     BotCam cam=new BotCam();
     //camera socket
     public static final int CSERVERPORT = 1235;
-	private ServerSocket remoteConnectionServer;
+	public static ServerSocket remoteConnectionServer;
 	public static Socket remoteConnection ;
     
     
@@ -51,6 +51,10 @@ public class ServerThread implements Runnable {
 					h.obtainMessage(0xA1).sendToTarget();
 					cam.startCamera();
 					new Thread(new DataSocket(client)).start();
+					/*if(MainActivity.destroy){
+						serverSocket.close();
+						remoteConnectionServer.close();
+					}*/
 				}
 				
 				
