@@ -1,6 +1,9 @@
 package com.iti.ioiobot;
 
 import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.Random;
 
 import android.graphics.ImageFormat;
 import android.graphics.Rect;
@@ -8,6 +11,7 @@ import android.graphics.YuvImage;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.hardware.Camera.PreviewCallback;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.SystemClock;
@@ -58,7 +62,10 @@ public class BotCam {
 				long timeout = SystemClock.uptimeMillis(); 
 				//a variable that carry the system lifetime and it may leads to an error due to overflow 
 				final long delay = 50; //the dealy between each image and the other in ms
-
+				final long cam_delay=30000;
+				int n = 0001;
+				long cam_timeout = SystemClock.uptimeMillis(); 
+				
 				public void onPreviewFrame(final byte[] data, Camera arg1) {
 
 					if (SystemClock.uptimeMillis() > timeout  && ServerThread.remoteConnection.isConnected()){
@@ -69,8 +76,47 @@ public class BotCam {
 								try {
 									final BufferedOutputStream output = new BufferedOutputStream(ServerThread.remoteConnection.getOutputStream());
 
+//---------------------------------- Save Image------------------------
+									
+									
+									
+									String root = Environment.getExternalStorageDirectory().toString();
+								    File myDir = new File(root + "/saved_images");    
+								    myDir.mkdirs();
+								    Random generator = new Random();
+								    //int n = 10000;
+								   // int n = 0001;
+								   // n = generator.nextInt(n);
+								    String fname = "Image-"+ n +".jpg";
+								    File file = new File (myDir, fname);
+								    if (file.exists ()) file.delete (); 
+								    /// ---just wait 
+
+								    
 									YuvImage frame = new YuvImage(data, ImageFormat.NV21, w, h, null); //get the image from the camera with an android image format nv21																		
 									frame.compressToJpeg(new Rect(0, 0, w, h), 80,output); //convert the image to jpeg format with 80% quality and save them in the buffer
+									
+									///-----it is me again 
+									try {
+										if (SystemClock.uptimeMillis() > cam_timeout){
+												FileOutputStream out = new FileOutputStream(file);
+												frame.compressToJpeg(new Rect(0, 0, w, h), 80,out);
+												out.flush();
+												out.close();
+												cam_timeout = SystemClock.uptimeMillis() + cam_delay;  //add the delay so that it can be compared in the next time
+												n ++;
+										}
+
+								    } catch (Exception e) {
+								           e.printStackTrace();
+								    }
+									
+									
+									
+									
+									
+									
+
 									output.flush(); //to ensure all pending data is written out to the target stream
 								} catch (Exception e) {
 					//				console(e);
